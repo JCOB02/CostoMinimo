@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generador de Tablas</title>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Generador de Tablas</h1>
+    <form id="inputForm">
+        <label for="numColumnas">Número de Columnas:</label>
+        <input type="number" id="numColumnas" required>
+        <label for="numFilas">Número de Filas:</label>
+        <input type="number" id="numFilas" required>
+        <button type="button" onclick="generarTabla()">Generar Tabla</button>
+    </form>
+    <div id="tablaContainer"></div>
+
+    <script>
+        function generarTabla() {
+            const numColumnas = parseInt(document.getElementById('numColumnas').value);
+            const numFilas = parseInt(document.getElementById('numFilas').value);
+
+            if (numColumnas <= 0 || numFilas <= 0) {
+                alert("Por favor, ingrese números válidos para las columnas y filas.");
+                return;
+            }
+
+            const tablaContainer = document.getElementById('tablaContainer');
+            tablaContainer.innerHTML = ''; // Limpiar cualquier tabla anterior
+
+            const table = document.createElement('table');
+
+            // Crear encabezado de la tabla
+            const thead = document.createElement('thead');
+            const tr = document.createElement('tr');
+            tr.appendChild(document.createElement('th')); // Celda vacía en la esquina superior izquierda
+            for (let i = 1; i <= numColumnas; i++) {
+                const th = document.createElement('th');
+                th.textContent = i;
+                tr.appendChild(th);
+            }
+            thead.appendChild(tr);
+            table.appendChild(thead);
+
+            // Crear filas y celdas de la tabla
+            const tbody = document.createElement('tbody');
+            for (let i = 1; i <= numFilas; i++) {
+                const tr = document.createElement('tr');
+                const th = document.createElement('th');
+                th.textContent = String.fromCharCode(64 + i); // Convertir 1 a "A", 2 a "B", etc.
+                tr.appendChild(th);
+                for (let j = 1; j <= numColumnas; j++) {
+                    const td = document.createElement('td');
+                    td.textContent = j + String.fromCharCode(64 + i); // Combinar número de columna y letra de fila
+                    tr.appendChild(td);
+                }
+                tbody.appendChild(tr);
+            }
+            table.appendChild(tbody);
+
+            tablaContainer.appendChild(table);
+        }
+    </script>
+</body>
+</html>
